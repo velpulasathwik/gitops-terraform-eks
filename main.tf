@@ -1,10 +1,19 @@
-#terraform {
-# backend "s3" {
-#  bucket = "tfstagebucket"
-# key    = "tfstagebucket.tfstate"
-#  region = "us-east-1"
-# }
-#}
+terraform {
+  backend "s3" {
+    bucket         = "terraform-state-bucket"
+    key            = "terraform-state-bucket.tfstate"  # This is the path in the bucket where the state file will be stored
+    region         = "us-east-1"                       # The AWS region where your S3 bucket is located
+        
+  }
+}
+
+provider "aws" {
+  region = "us-east-1"
+}
+
+resource "aws_s3_bucket" "example" {
+  bucket = "terraform-state-bucket"
+}
 
 module "eks" {
   source          = "terraform-aws-modules/eks/aws"
